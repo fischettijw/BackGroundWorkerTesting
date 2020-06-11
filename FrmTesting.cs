@@ -134,24 +134,6 @@ namespace BackGroundWorkerTesting
     }
 
 
-    class Tester
-    {
-        public static int count = 0;
-        public int Index { get; set; }
-        public string Name { get; set; }
-
-        public Tester(int index, string name)
-        {
-            Index = index;
-            Name = name;
-            count += 1;
-        }
-
-
-
-    }
-
-
 
 }
 
