@@ -23,6 +23,8 @@ namespace BackGroundWorkerTesting
 
         BkGdWkData bkGdWkData;
 
+        string cancelComplete;
+
         public FrmTesting()
         {
             InitializeComponent();
@@ -52,6 +54,7 @@ namespace BackGroundWorkerTesting
         {
             if (bkGdWk.IsBusy)
             {
+                cancelComplete = "Cancelled";
                 bkGdWk.CancelAsync();
             }
         }
@@ -61,41 +64,8 @@ namespace BackGroundWorkerTesting
             int process = ((BkGdWkData)e.Argument).Process;
             int delay = ((BkGdWkData)e.Argument).Delay;
 
-            bkgdFunction(process, delay);
-
-
-            //int index = 1;
-
-            //if (CbxAllowXthreadBW.Checked)
-            //{
-            //    CheckForIllegalCrossThreadCalls = false;
-            //}
-            //else
-            //{
-            //    CheckForIllegalCrossThreadCalls = true;
-            //}
-
-            //try
-            //{
-            //    for (int i = 0; i < process; i++)
-            //    {
-            //        if (!bkGdWk.CancellationPending)
-            //        {
-            //            bkGdWk.ReportProgress(index++ * 100 / process);
-            //            LbxOutput.Items.Add(i);
-            //            LbxOutput.TopIndex = LbxOutput.Items.Count - 1;
-            //            if (CbxDoEventsBW.Checked) Application.DoEvents();
-            //            Thread.Sleep(delay);
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    bkGdWk.CancelAsync();
-            //    MessageBox.Show(ex.Message, "Exception Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
-
+            cancelComplete = "Completed";
+            bkgdMethod(process, delay);
         }
 
         private void BkGdWk_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -106,7 +76,7 @@ namespace BackGroundWorkerTesting
 
         private void BkGdWk_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            MessageBox.Show("Process has been completed", "COMPLETE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"Process has been {cancelComplete}", "Complete or Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void BtnStart2_Click(object sender, EventArgs e)
@@ -139,7 +109,7 @@ namespace BackGroundWorkerTesting
 
 
 
-        void bkgdFunction(int process, int delay)
+        void bkgdMethod(int process, int delay)
         {
             int index = 1;
             if (CbxAllowXthreadBW.Checked)
