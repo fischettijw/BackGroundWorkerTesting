@@ -121,7 +121,7 @@
             this.BtnStop2.Name = "BtnStop2";
             this.BtnStop2.Size = new System.Drawing.Size(115, 34);
             this.BtnStop2.TabIndex = 9;
-            this.BtnStop2.Text = "Stop";
+            this.BtnStop2.Text = "Exit App";
             this.BtnStop2.UseVisualStyleBackColor = true;
             this.BtnStop2.Click += new System.EventHandler(this.BtnStop2_Click);
             // 

@@ -60,37 +60,41 @@ namespace BackGroundWorkerTesting
         {
             int process = ((BkGdWkData)e.Argument).Process;
             int delay = ((BkGdWkData)e.Argument).Delay;
-            int index = 1;
 
-            if (CbxAllowXthreadBW.Checked)
-            {
-                CheckForIllegalCrossThreadCalls = false;
-            }
-            else
-            {
-                CheckForIllegalCrossThreadCalls = true;
-            }
+            bkgdFunction(process, delay);
 
-            try
-            {
-                for (int i = 0; i < process; i++)
-                {
-                    if (!bkGdWk.CancellationPending)
-                    {
-                        bkGdWk.ReportProgress(index++ * 100 / process);
-                        LbxOutput.Items.Add(i);
-                        LbxOutput.TopIndex = LbxOutput.Items.Count - 1;
-                        if (CbxDoEventsBW.Checked) Application.DoEvents();
-                        Thread.Sleep(delay);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
 
-                bkGdWk.CancelAsync();
-                MessageBox.Show(ex.Message, "Exception Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //int index = 1;
+
+            //if (CbxAllowXthreadBW.Checked)
+            //{
+            //    CheckForIllegalCrossThreadCalls = false;
+            //}
+            //else
+            //{
+            //    CheckForIllegalCrossThreadCalls = true;
+            //}
+
+            //try
+            //{
+            //    for (int i = 0; i < process; i++)
+            //    {
+            //        if (!bkGdWk.CancellationPending)
+            //        {
+            //            bkGdWk.ReportProgress(index++ * 100 / process);
+            //            LbxOutput.Items.Add(i);
+            //            LbxOutput.TopIndex = LbxOutput.Items.Count - 1;
+            //            if (CbxDoEventsBW.Checked) Application.DoEvents();
+            //            Thread.Sleep(delay);
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+
+            //    bkGdWk.CancelAsync();
+            //    MessageBox.Show(ex.Message, "Exception Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
 
         }
 
@@ -131,10 +135,47 @@ namespace BackGroundWorkerTesting
         {
             Application.Exit();
         }
+
+
+
+
+        void bkgdFunction(int process, int delay)
+        {
+            int index = 1;
+            if (CbxAllowXthreadBW.Checked)
+            {
+                CheckForIllegalCrossThreadCalls = false;
+            }
+            else
+            {
+                CheckForIllegalCrossThreadCalls = true;
+            }
+
+            try
+            {
+                for (int i = 0; i < process; i++)
+                {
+                    if (!bkGdWk.CancellationPending)
+                    {
+                        bkGdWk.ReportProgress(index++ * 100 / process);
+                        LbxOutput.Items.Add(i);
+                        LbxOutput.TopIndex = LbxOutput.Items.Count - 1;
+                        if (CbxDoEventsBW.Checked) Application.DoEvents();
+                        Thread.Sleep(delay);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                bkGdWk.CancelAsync();
+                MessageBox.Show(ex.Message, "Exception Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+
     }
-
-
-
 }
 
 //Calling the DoEvents() method causes the current thread to be suspended while all waiting window messages are processed. If a message causes an event to be triggered, then other areas of your application code may execute.This can cause your application to exhibit unexpected behaviors that are difficult to debug. If you perform operations or computations that take a long time, it is often preferable to perform those operations on a new thread.
